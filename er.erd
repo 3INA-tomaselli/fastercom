@@ -1,0 +1,89 @@
+erdiagram Fastercom
+
+notation=default
+
+
+entity UTENTI {
+    id : int key
+    email : string
+    password_hash : string
+    ruolo : string
+}
+
+entity CLASSI {
+    id : int key
+    nome : string
+    anno : string
+}
+
+entity STUDENTI {
+    id : int key
+    utente_id : int
+    classe_id : int
+    nome : string
+    cognome : string
+    data_nascita : date
+    codice_fiscale : string
+}
+
+entity DOCENTI {
+    id : int key
+    utente_id : int
+    nome : string
+    cognome : string
+}
+
+entity MATERIE {
+    id : int key
+    nome : string
+}
+
+entity INSEGNAMENTI {
+    id : int key
+    docente_id : int
+    materia_id : int
+    classe_id : int
+}
+
+entity VOTI {
+    id : int key
+    insegnamento_id : int
+    studente_id : int
+    valore : decimal
+    tipo : string
+    data : date
+    nota : string
+}
+
+
+relationship UTENTE_STUDENTE {
+    UTENTI[1] -> STUDENTI[0..1]
+}
+
+relationship UTENTE_DOCENTE {
+    UTENTI[1] -> DOCENTI[0..1]
+}
+
+relationship CLASSE_STUDENTI {
+    CLASSI[1] -> STUDENTI[0..N]
+}
+
+relationship CLASSE_INSEGNAMENTI {
+    CLASSI[1] -> INSEGNAMENTI[0..N]
+}
+
+relationship DOCENTE_INSEGNAMENTI {
+    DOCENTI[1] -> INSEGNAMENTI[0..N]
+}
+
+relationship MATERIA_INSEGNAMENTI {
+    MATERIE[1] -> INSEGNAMENTI[0..N]
+}
+
+relationship INSEGNAMENTO_VOTI {
+    INSEGNAMENTI[1] -> VOTI[0..N]
+}
+
+relationship STUDENTE_VOTI {
+    STUDENTI[1] -> VOTI[0..N]
+}
