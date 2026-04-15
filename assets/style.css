@@ -1,14 +1,15 @@
 /* From Uiverse.io by andrew-demchenk0 */ 
 .wrapper {
     --input-focus: #2d8cf0;
-    --font-color: #323232;
+    --font-color: #666;
     --font-color-sub: #666;
-    --bg-color: #fff;
-    --bg-color-alt: #666;
-    --main-color: #323232;
+    --bg-color: #fafffd;
+    --bg-color-alt: #f81111;
+    --main-color: #a2d729;
       /* display: flex; */
       /* flex-direction: column; */
       /* align-items: center; */
+      margin-left: 500px;
   }
   /* switch card */
   .switch {
@@ -36,7 +37,7 @@
   
   .card-side::after {
     position: absolute;
-    content: 'Sign up';
+    content: '';
     left: 70px;
     top: 0;
     width: 100px;
@@ -128,7 +129,7 @@
     justify-content: center;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background: lightgrey;
+    background: #342e37;
     gap: 20px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
@@ -196,3 +197,12 @@
     color: var(--font-color);
     cursor: pointer;
   } 
+
+  nav{
+    height: 50px;
+    background-color: #3c91e6;
+  }
+
+  footer{
+    background-color: #fa824c;
+  }
