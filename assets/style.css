@@ -1,4 +1,21 @@
-/* From Uiverse.io by andrew-demchenk0 */ 
+/* From Uiverse.io by andrew-demchenk0 */
+
+body{
+
+  margin: 0 ;
+ 
+  background: linear-gradient(
+    195deg,
+    #286cb6,
+    #0f172a,
+    #020617,
+    #022c22,
+    #fa824c
+  )
+
+   
+}
+
 .wrapper {
     --input-focus: #2d8cf0;
     --font-color: #666;
@@ -9,8 +26,14 @@
       /* display: flex; */
       /* flex-direction: column; */
       /* align-items: center; */
-      margin-left: 500px;
-  }
+     
+  display: flex;
+  justify-content: center; /* orizzontale */
+  align-items: center;     /* verticale */
+ 
+}
+     
+ 
   /* switch card */
   .switch {
     transform: translateY(-200px);
@@ -23,7 +46,7 @@
     width: 50px;
     height: 20px;
   }
-  
+ 
   .card-side::before {
     position: absolute;
     content: 'Log in';
@@ -34,7 +57,7 @@
     color: var(--font-color);
     font-weight: 600;
   }
-  
+ 
   .card-side::after {
     position: absolute;
     content: '';
@@ -45,13 +68,13 @@
     color: var(--font-color);
     font-weight: 600;
   }
-  
+ 
   .toggle {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+ 
   .slider {
     box-sizing: border-box;
     border-radius: 5px;
@@ -66,7 +89,7 @@
     background-color: var(--bg-colorcolor);
     transition: 0.3s;
   }
-  
+ 
   .slider:before {
     box-sizing: border-box;
     position: absolute;
@@ -81,25 +104,25 @@
     box-shadow: 0 3px 0 var(--main-color);
     transition: 0.3s;
   }
-  
+ 
   .toggle:checked + .slider {
     background-color: var(--input-focus);
   }
-  
+ 
   .toggle:checked + .slider:before {
     transform: translateX(30px);
   }
-  
+ 
   .toggle:checked ~ .card-side:before {
     text-decoration: none;
   }
-  
+ 
   .toggle:checked ~ .card-side:after {
     text-decoration: underline;
   }
-  
-  /* card */ 
-  
+ 
+  /* card */
+ 
   .flip-card__inner {
     width: 300px;
     height: 350px;
@@ -112,15 +135,15 @@
     transition: transform 0.8s;
     transform-style: preserve-3d;
   }
-  
+ 
   .toggle:checked ~ .flip-card__inner {
     transform: rotateY(180deg);
   }
-  
+ 
   .toggle:checked ~ .flip-card__front {
     box-shadow: none;
   }
-  
+ 
   .flip-card__front, .flip-card__back {
     padding: 20px;
     position: absolute;
@@ -133,21 +156,24 @@
     gap: 20px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
-    box-shadow: 4px 4px var(--main-color);
+      box-shadow:
+    0 0 5px var(--main-color),
+    0 0 10px var(--main-color),
+    0 0 20px var(--main-color);
   }
-  
+ 
   .flip-card__back {
     width: 100%;
     transform: rotateY(180deg);
   }
-  
+ 
   .flip-card__form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
   }
-  
+ 
   .title {
     margin: 20px 0 20px 0;
     font-size: 25px;
@@ -155,7 +181,7 @@
     text-align: center;
     color: var(--main-color);
   }
-  
+ 
   .flip-card__input {
     width: 250px;
     height: 40px;
@@ -169,21 +195,21 @@
     padding: 5px 10px;
     outline: none;
   }
-  
+ 
   .flip-card__input::placeholder {
     color: var(--font-color-sub);
     opacity: 0.8;
   }
-  
+ 
   .flip-card__input:focus {
     border: 2px solid var(--input-focus);
   }
-  
+ 
   .flip-card__btn:active, .button-confirm:active {
     box-shadow: 0px 0px var(--main-color);
     transform: translate(3px, 3px);
   }
-  
+ 
   .flip-card__btn {
     margin: 20px 0 20px 0;
     width: 120px;
@@ -196,13 +222,29 @@
     font-weight: 600;
     color: var(--font-color);
     cursor: pointer;
-  } 
+  }
+
 
   nav{
     height: 50px;
     background-color: #3c91e6;
+
+    display: flex;
+  justify-content: space-evenly; /* orizzontale */
+  align-items: center;     /* verticale */
+  font-size: x-large;
+   padding: 10px;
+ 
   }
 
   footer{
     background-color: #fa824c;
+    font-size: large;
+      display: flex;
+       align-items: center;  
+        justify-content: center;
+          font-size: larger;
+          margin-top: 400px;
+         
+   
   }

@@ -14,6 +14,12 @@ if($ruolo != "docente" && $ruolo != "admin"){
     header("Location: dashboardStudente.php");
 }
 
+
+
+
+
+
+
 ?>
 
 <h1>Dashboard Docenti</h1>
