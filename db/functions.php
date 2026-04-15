@@ -1,6 +1,6 @@
 <?php
 require_once 'connection.php';
-require_once '../components/session.php';
+require_once 'components/session.php';
 
 
 function checkLogin($email, $password){
@@ -54,32 +54,28 @@ function getidStudenteByEmail($email){
         $result = $pdo->prepare($sql);
         $result->execute([$email]);
 
-        $id = $result->fetch(PDO::FETCH_ASSOC);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
 
-        return $utente;
+        return $row['id'] ?? null;
     }
     catch(PDOException $e){
-        echo "<script>alert('Errore" . $e->getMessage() . "')</script>";
+        echo "<script>alert('Errore " . $e->getMessage() . "')</script>";
     }
 }
 
-function getMaterieStudente(){
+function getMaterieStudente($id){
     global $pdo;
     $email = $_SESSION["email"];
-    $id = getidStudenteByEmail($email);
     try{
-        $sql = "SELECT 
-    m.nome AS materia,
-    d.cognome AS cognome_docente
-FROM studenti s
-JOIN insegnamenti i ON s.classe_id = i.classe_id
-JOIN materie m ON i.materia_id = m.id
-JOIN docenti d ON i.docente_id = d.id
-WHERE s.utente_id = ? ;";
+        $sql = "SELECT m.nome AS materia,  d.cognome AS cognome_docente FROM studenti s
+        JOIN insegnamenti i ON s.classe_id = i.classe_id
+        JOIN materie m ON i.materia_id = m.id
+        JOIN docenti d ON i.docente_id = d.id
+    WHERE s.utente_id = ? ;";
         $result = $pdo->prepare($sql);
         $result->execute([$id]);
 
-        $materie = $result->fetch(PDO::FETCH_ASSOC);
+        $materie = $result->fetchall(PDO::FETCH_ASSOC);
 
         return $materie;
     }

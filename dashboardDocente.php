@@ -9,6 +9,11 @@ if (!isset($_SESSION['email'])) {
 }
 $ruolo = $_SESSION['ruolo'];
 
+if($ruolo != "docente" && $ruolo != "admin"){
+
+    header("Location: dashboardStudente.php");
+}
+
 ?>
 
 <h1>Dashboard Docenti</h1>
