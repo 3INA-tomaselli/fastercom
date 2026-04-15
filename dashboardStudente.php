@@ -34,6 +34,9 @@ $materie = getMaterieStudente($id);
         <tr>
             <th>Materia</th>
             <th>Docente</th>
+            <th>Media Voti</th>
+            <th>Numero Voti</th>
+            <th>Lista Voti</th>
         </tr>
     </thead>
     <tbody>
@@ -42,11 +45,14 @@ $materie = getMaterieStudente($id);
                 <tr>
                     <td><?= htmlspecialchars($m['materia'] ?? 'N/D'); ?></td>
                     <td><?= htmlspecialchars($m['cognome_docente'] ?? 'N/D'); ?></td>
+                    <td><?= $m['media_voti'] !== null ? number_format($m['media_voti'], 2) : 'N/D'; ?></td>
+                    <td><?= htmlspecialchars($m['numero_voti'] ?? '0'); ?></td>
+                    <td><?= htmlspecialchars($m['lista_voti'] ?? 'Nessun voto'); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="2">Nessuna materia trovata</td>
+                <td colspan="5">Nessuna materia trovata</td>
             </tr>
         <?php endif; ?>
     </tbody>

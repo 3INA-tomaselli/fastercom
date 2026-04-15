@@ -1,15 +1,15 @@
 <?php
-echo "<table border='1' cellpadding='8' cellspacing='0'>";
-echo "<tr><th>Password</th><th>Hash</th></tr>";
+echo password_hash('admin', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Docente1', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Docente2', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Stud1', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Stud2', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Stud3', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Stud4', PASSWORD_BCRYPT);?><br>
 
-for ($i = 1; $i <= 7; $i++) {
-    $password = 'hash' . $i;
-    $hash = password_hash($password, PASSWORD_BCRYPT);
-
-    echo "<tr>";
-    echo "<td>$password</td>";
-    echo "<td style='font-family: monospace;'>$hash</td>";
-    echo "</tr>";
-}
-
-echo "</table>";

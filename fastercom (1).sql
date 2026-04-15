@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 18, 2026 alle 10:01
+-- Creato il: Apr 15, 2026 alle 10:03
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -40,8 +40,9 @@ CREATE TABLE `classi` (
 --
 
 INSERT INTO `classi` (`id`, `nome`, `anno`) VALUES
-(1, '3A', '2025'),
-(2, '4B', '2025');
+(1, '1A', '2025-2026'),
+(2, '2B', '2025-2026'),
+(3, '3C', '2025-2026');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,8 @@ CREATE TABLE `docenti` (
 --
 
 INSERT INTO `docenti` (`id`, `utente_id`, `nome`, `cognome`) VALUES
-(1, 3, 'Anna', 'Verdi');
+(1, 2, 'Marco', 'Rossi'),
+(2, 3, 'Laura', 'Bianchi');
 
 -- --------------------------------------------------------
 
@@ -82,7 +84,8 @@ CREATE TABLE `insegnamenti` (
 
 INSERT INTO `insegnamenti` (`id`, `docente_id`, `materia_id`, `classe_id`) VALUES
 (1, 1, 1, 1),
-(2, 1, 2, 1);
+(2, 1, 1, 2),
+(3, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,7 @@ CREATE TABLE `materie` (
 --
 
 INSERT INTO `materie` (`id`, `nome`) VALUES
-(2, 'Informatica'),
+(2, 'Italiano'),
 (1, 'Matematica');
 
 -- --------------------------------------------------------
@@ -124,8 +127,10 @@ CREATE TABLE `studenti` (
 --
 
 INSERT INTO `studenti` (`id`, `utente_id`, `classe_id`, `nome`, `cognome`, `data_nascita`, `codice_fiscale`) VALUES
-(1, 1, 1, 'Luca', 'Rossi', '2008-05-10', 'RSSLCU08E10H501Z'),
-(2, 2, 1, 'Marco', 'Bianchi', '2008-09-15', 'BNCMRC08P15H501X');
+(1, 4, 1, 'Mario', 'Verdi', '2010-03-15', 'VRDMRA10C15H501A'),
+(2, 5, 1, 'Anna', 'Neri', '2010-07-22', 'NRANNA10L62H501B'),
+(3, 6, 2, 'Luca', 'Blu', '2009-11-05', 'BLULCU09S05H501C'),
+(4, 7, 2, 'Sara', 'Gialli', '2009-04-18', 'GLLSRA09D58H501D');
 
 -- --------------------------------------------------------
 
@@ -145,10 +150,13 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`id`, `email`, `password_hash`, `ruolo`) VALUES
-(1, 'studente1@mail.com', 'hash1', 'studente'),
-(2, 'studente2@mail.com', 'hash2', 'studente'),
-(3, 'docente1@mail.com', 'hash3', 'docente'),
-(4, 'admin@mail.com', 'hash4', 'admin');
+(1, 'admin@scuola.it', '$2y$10$td7Y/aBF1DJbb3LzBnISbe0QDrtHJmv.09wOWvmRYs/y/qIZ6aNDq', 'admin'),
+(2, 'rossi.marco@scuola.it', '$2y$10$mjwx79FYO8K0xq4/Hd46H.WiAk5XlJS2AzlYa6NTPa00OYl7Nllme', 'docente'),
+(3, 'bianchi.laura@scuola.it', '$2y$10$Sl844hViWZmfugg9Cq32ZuVTqAIc.LbEY1OZ0/UKazve/4a7N2s5i', 'docente'),
+(4, 'mario.verdi@studenti.it', '$2y$10$mQItqsTS8..V7FdzD9kcj.oTAr1giWzQ3Yr4xZGP.qLj2pAgYOUpu', 'studente'),
+(5, 'anna.neri@studenti.it', '$2y$10$AfU3JZ9cirp26j6s4QL23..jDgw9rrOZCFVuKDOW0yuUzvW1EwJli', 'studente'),
+(6, 'luca.blu@studenti.it', '$2y$10$zRuOkLcoRT1IM58a/0rrXe1qtmLzKGCxVviDUZYhmVwYMHG4aDo/i', 'studente'),
+(7, 'sara.gialli@studenti.it', '$2y$10$dOZo6sOL5Aq6cncehGqcZOplKOaUbd5nGeii47lZASTsh8mNFqcdq', 'studente');
 
 -- --------------------------------------------------------
 
@@ -164,17 +172,20 @@ CREATE TABLE `voti` (
   `tipo` enum('scritto','orale','pratico') DEFAULT NULL,
   `data` date NOT NULL,
   `nota` text DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `voti`
 --
 
 INSERT INTO `voti` (`id`, `insegnamento_id`, `studente_id`, `valore`, `tipo`, `data`, `nota`) VALUES
-(1, 1, 1, 7.5, 'scritto', '2025-03-10', 'Verifica algebra'),
-(2, 1, 2, 6.0, 'orale', '2025-03-11', 'Interrogazione'),
-(3, 2, 1, 8.0, 'pratico', '2025-03-12', 'Esercizio SQL'),
-(4, 2, 2, 5.5, 'scritto', '2025-03-13', 'Compito database');
+(1, 1, 1, 8.5, 'scritto', '2026-02-10', 'Ottima prova'),
+(2, 1, 2, 7.0, 'scritto', '2026-02-10', 'Buona prova'),
+(3, 2, 3, 6.5, 'orale', '2026-02-12', NULL),
+(4, 2, 4, 9.0, 'orale', '2026-02-12', 'Eccellente'),
+(5, 3, 1, 7.5, 'scritto', '2026-02-14', NULL),
+(6, 3, 2, 8.0, 'pratico', '2026-02-14', 'Buon lavoro'),
+(7, 1, 1, 9.0, 'orale', '2026-04-15', 'Ottima esposizione');
 
 --
 -- Indici per le tabelle scaricate
@@ -242,19 +253,19 @@ ALTER TABLE `voti`
 -- AUTO_INCREMENT per la tabella `classi`
 --
 ALTER TABLE `classi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `docenti`
 --
 ALTER TABLE `docenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `insegnamenti`
 --
 ALTER TABLE `insegnamenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `materie`
@@ -266,19 +277,19 @@ ALTER TABLE `materie`
 -- AUTO_INCREMENT per la tabella `studenti`
 --
 ALTER TABLE `studenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `voti`
 --
 ALTER TABLE `voti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Limiti per le tabelle scaricate

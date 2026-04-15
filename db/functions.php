@@ -67,11 +67,21 @@ function getMaterieStudente($id){
     global $pdo;
     $email = $_SESSION["email"];
     try{
-        $sql = "SELECT m.nome AS materia,  d.cognome AS cognome_docente FROM studenti s
-        JOIN insegnamenti i ON s.classe_id = i.classe_id
-        JOIN materie m ON i.materia_id = m.id
-        JOIN docenti d ON i.docente_id = d.id
-    WHERE s.utente_id = ? ;";
+        $sql = "SELECT 
+    m.nome AS materia,
+    d.cognome AS cognome_docente,
+    AVG(v.valore) AS media_voti,
+    COUNT(v.id) AS numero_voti,
+    GROUP_CONCAT(v.valore ORDER BY v.data SEPARATOR ', ') AS lista_voti
+FROM studenti s
+JOIN insegnamenti i ON s.classe_id = i.classe_id
+JOIN materie m ON i.materia_id = m.id
+JOIN docenti d ON i.docente_id = d.id
+LEFT JOIN voti v 
+    ON v.insegnamento_id = i.id 
+   AND v.studente_id = s.id
+WHERE s.utente_id = ?
+GROUP BY m.id, d.id; ;";
         $result = $pdo->prepare($sql);
         $result->execute([$id]);
 
