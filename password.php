@@ -12,4 +12,6 @@ echo password_hash('Stud2', PASSWORD_BCRYPT);?><br>
 echo password_hash('Stud3', PASSWORD_BCRYPT);?><br>
 <?php
 echo password_hash('Stud4', PASSWORD_BCRYPT);?><br>
+<?php
+echo password_hash('Doc67', PASSWORD_BCRYPT);?><br>
 

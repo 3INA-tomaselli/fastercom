@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 15, 2026 alle 10:03
+-- Creato il: Apr 22, 2026 alle 10:14
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -63,7 +63,8 @@ CREATE TABLE `docenti` (
 
 INSERT INTO `docenti` (`id`, `utente_id`, `nome`, `cognome`) VALUES
 (1, 2, 'Marco', 'Rossi'),
-(2, 3, 'Laura', 'Bianchi');
+(2, 3, 'Laura', 'Bianchi'),
+(5, 14, 'Mario', 'Bianchi');
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,8 @@ INSERT INTO `utenti` (`id`, `email`, `password_hash`, `ruolo`) VALUES
 (4, 'mario.verdi@studenti.it', '$2y$10$mQItqsTS8..V7FdzD9kcj.oTAr1giWzQ3Yr4xZGP.qLj2pAgYOUpu', 'studente'),
 (5, 'anna.neri@studenti.it', '$2y$10$AfU3JZ9cirp26j6s4QL23..jDgw9rrOZCFVuKDOW0yuUzvW1EwJli', 'studente'),
 (6, 'luca.blu@studenti.it', '$2y$10$zRuOkLcoRT1IM58a/0rrXe1qtmLzKGCxVviDUZYhmVwYMHG4aDo/i', 'studente'),
-(7, 'sara.gialli@studenti.it', '$2y$10$dOZo6sOL5Aq6cncehGqcZOplKOaUbd5nGeii47lZASTsh8mNFqcdq', 'studente');
+(7, 'sara.gialli@studenti.it', '$2y$10$dOZo6sOL5Aq6cncehGqcZOplKOaUbd5nGeii47lZASTsh8mNFqcdq', 'studente'),
+(14, 'mario.bianchi@scuola.it', '$2y$10$w.1yN8op9V8DnvL0SxCX4eDDTXyURorVNK4wmUFi5uZ.0exLy5lmu', 'docente');
 
 -- --------------------------------------------------------
 
@@ -259,7 +261,7 @@ ALTER TABLE `classi`
 -- AUTO_INCREMENT per la tabella `docenti`
 --
 ALTER TABLE `docenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `insegnamenti`
@@ -283,7 +285,7 @@ ALTER TABLE `studenti`
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT per la tabella `voti`

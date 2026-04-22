@@ -95,3 +95,71 @@ GROUP BY m.id, d.id; ;";
 
 
 }
+
+function getNomiClassi($id) {
+global $pdo;
+
+    try{
+        $sql = "SELECT
+    c.id   AS classe_id,
+    c.nome AS classe_nome
+FROM insegnamenti i
+JOIN classi c ON c.id = i.classe_id
+WHERE i.docente_id = (
+    SELECT id FROM docenti WHERE utente_id = ?
+)
+GROUP BY c.id, c.nome
+ORDER BY c.nome;";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([$id]);
+
+        $classi= $result->fetchAll(PDO::FETCH_ASSOC);
+
+        return $classi;
+    }
+    catch(PDOException $e){
+        echo "<script>alert('Errore " . $e->getMessage() . "')</script>";
+    }
+    
+}
+
+
+function getInfoXDocente($idClasse, $idDocente) {
+    global $pdo;
+
+    try{
+        $sql = "SELECT
+    s.id          AS studente_id,
+    s.nome        AS studente_nome,
+    s.cognome     AS studente_cognome,
+    c.nome        AS classe_nome,
+    ROUND(AVG(v.valore), 2) AS media_voti
+FROM studenti s
+JOIN classi c ON c.id = s.classe_id
+LEFT JOIN voti v ON v.studente_id = s.id
+WHERE s.classe_id = ?
+AND s.classe_id IN (
+    SELECT i.classe_id
+    FROM insegnamenti i
+    WHERE i.docente_id = (
+        SELECT id FROM docenti WHERE utente_id = ?
+    )
+)
+GROUP BY s.id, s.nome, s.cognome, c.nome
+ORDER BY s.cognome, s.nome;";
+        $result = $pdo->prepare($sql);
+        $result->execute([$idClasse, $idDocente]);
+
+        $info = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        return $info;
+    }
+    catch(PDOException $e){
+        echo "<script>alert('Errore " . $e->getMessage() . "')</script>";
+    }
+
+    
+}
+
+   

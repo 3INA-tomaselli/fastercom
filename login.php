@@ -1,6 +1,5 @@
 <?php
 require_once "components/session.php";
-require_once 'components/navbar.php';
 
 if(isset($_SESSION['username'])){
     header("Location: dashboard.php");
@@ -14,7 +13,7 @@ $password = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    if (empty($_POST["email"])) { // in questo caso, visto che i campi di login sono  obbligatori, isset non serve
+    if (empty($_POST["email"])) {
         $errors[] = "email mancante";
     } else {
         $email = $_POST["email"];
@@ -26,15 +25,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $password = $_POST["password"];
     }
 
-
-    if (empty($errors)) { // faccio check login solo se non ci sono stati errori
+    if (empty($errors)) {
         $loginError = checkLogin($email, $password);
         
         if (empty($loginError)) {
             $utente = getUserByEmail($email);
-            $_SESSION["email"] = $utente['email']; // creo la sessione con la mail
+            $_SESSION["email"] = $utente['email'];
             $_SESSION["ruolo"] = $utente['ruolo'];
-            header("Location: dashboard.php"); // mando l'utente alla dashboard
+            $_SESSION['id'] = $utente['id'];
+            header("Location: dashboard.php");
             exit;
         } else {
             $errors[] = $loginError;
@@ -52,40 +51,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    
-    <main>
-        <!-- stampo gli errori (se ci sono stati) -->
-        <?php if (!empty($errors)){ ?>
-            <div class="errors">
-                <ul>
-                    <?php foreach ($errors as $error){ ?>
-                        <li style="color: red"><?= $error ?></li>
-                    <?php }; ?>
-                </ul>
-            </div>
-        <?php }; ?>
 
+    <header class="school-header">
+        <h1>Liceo P. Lodron</h1>
+        <p>Registro Scolastico</p>
+    </header>
+
+    <?php require_once 'components/navbar.php'; ?>
+
+    <main>
         <div class="wrapper">
-        <div class="card-switch">
-           
-            
-               <span class="slider"></span>
-               <span class="card-side"></span>
-               <div class="flip-card__inner">
-                  <div class="flip-card__front">
-                     <div class="title">Log in</div>
-                     <form class="flip-card__form" action=""  method="POST">
+
+            <?php if (!empty($errors)){ ?>
+                <div class="errors">
+                    <ul>
+                        <?php foreach ($errors as $error){ ?>
+                            <li><?= $error ?></li>
+                        <?php }; ?>
+                    </ul>
+                </div>
+            <?php }; ?>
+
+            <div class="flip-card__inner">
+                <div class="flip-card__front">
+                    <div class="title">Log in</div>
+                    <form class="flip-card__form" action="" method="POST">
                         <input class="flip-card__input" name="email" placeholder="Email" type="email">
                         <input class="flip-card__input" name="password" placeholder="Password" type="password">
                         <button class="flip-card__btn">Let`s go!</button>
-                     </form>
-                  </div>
-                  
-               </div>
-        
-        </div>   
-   </div>
+                    </form>
+                </div>
+            </div>
 
+        </div>
     </main>
 
     <?php require_once "components/footer.php" ?>
