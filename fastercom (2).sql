@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 22, 2026 alle 10:14
+-- Creato il: Apr 29, 2026 alle 10:07
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -151,14 +151,14 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`id`, `email`, `password_hash`, `ruolo`) VALUES
-(1, 'admin@scuola.it', '$2y$10$td7Y/aBF1DJbb3LzBnISbe0QDrtHJmv.09wOWvmRYs/y/qIZ6aNDq', 'admin'),
-(2, 'rossi.marco@scuola.it', '$2y$10$mjwx79FYO8K0xq4/Hd46H.WiAk5XlJS2AzlYa6NTPa00OYl7Nllme', 'docente'),
-(3, 'bianchi.laura@scuola.it', '$2y$10$Sl844hViWZmfugg9Cq32ZuVTqAIc.LbEY1OZ0/UKazve/4a7N2s5i', 'docente'),
-(4, 'mario.verdi@studenti.it', '$2y$10$mQItqsTS8..V7FdzD9kcj.oTAr1giWzQ3Yr4xZGP.qLj2pAgYOUpu', 'studente'),
-(5, 'anna.neri@studenti.it', '$2y$10$AfU3JZ9cirp26j6s4QL23..jDgw9rrOZCFVuKDOW0yuUzvW1EwJli', 'studente'),
-(6, 'luca.blu@studenti.it', '$2y$10$zRuOkLcoRT1IM58a/0rrXe1qtmLzKGCxVviDUZYhmVwYMHG4aDo/i', 'studente'),
-(7, 'sara.gialli@studenti.it', '$2y$10$dOZo6sOL5Aq6cncehGqcZOplKOaUbd5nGeii47lZASTsh8mNFqcdq', 'studente'),
-(14, 'mario.bianchi@scuola.it', '$2y$10$w.1yN8op9V8DnvL0SxCX4eDDTXyURorVNK4wmUFi5uZ.0exLy5lmu', 'docente');
+(1, 'admin@scuola.it', '$2y$10$hyHvRzb7FQg48Am31XIuROZKJ//WK7K1FA/zIghwiJ0BIoKhbsXXC', 'admin'),
+(2, 'rossi.marco@scuola.it', '$2y$10$agIw/PdCSMQ0Ds0yVPvRAu8A3LZATf7C/Zi6xN60TK5qW9nPGpFDS', 'docente'),
+(3, 'bianchi.laura@scuola.it', '$2y$10$agIw/PdCSMQ0Ds0yVPvRAu8A3LZATf7C/Zi6xN60TK5qW9nPGpFDS', 'docente'),
+(4, 'mario.verdi@studenti.it', '$2y$10$JTfrLfW8XLDv5YoYpzeNe.Y3f18imdOvHHPrU9QVHiPf3L1QoQCNO', 'studente'),
+(5, 'anna.neri@studenti.it', '$2y$10$JTfrLfW8XLDv5YoYpzeNe.Y3f18imdOvHHPrU9QVHiPf3L1QoQCNO', 'studente'),
+(6, 'luca.blu@studenti.it', '$2y$10$JTfrLfW8XLDv5YoYpzeNe.Y3f18imdOvHHPrU9QVHiPf3L1QoQCNO', 'studente'),
+(7, 'sara.gialli@studenti.it', '$2y$10$JTfrLfW8XLDv5YoYpzeNe.Y3f18imdOvHHPrU9QVHiPf3L1QoQCNO', 'studente'),
+(14, 'mario.bianchi@scuola.it', '$2y$10$agIw/PdCSMQ0Ds0yVPvRAu8A3LZATf7C/Zi6xN60TK5qW9nPGpFDS', 'docente');
 
 -- --------------------------------------------------------
 
@@ -187,7 +187,17 @@ INSERT INTO `voti` (`id`, `insegnamento_id`, `studente_id`, `valore`, `tipo`, `d
 (4, 2, 4, 9.0, 'orale', '2026-02-12', 'Eccellente'),
 (5, 3, 1, 7.5, 'scritto', '2026-02-14', NULL),
 (6, 3, 2, 8.0, 'pratico', '2026-02-14', 'Buon lavoro'),
-(7, 1, 1, 9.0, 'orale', '2026-04-15', 'Ottima esposizione');
+(7, 1, 1, 9.0, 'orale', '2026-04-15', 'Ottima esposizione'),
+(8, 1, 1, 8.5, 'scritto', '2026-04-29', 'Ottima prova'),
+(9, 1, 1, 1.0, 'scritto', '2026-04-29', 'Ottima prova'),
+(10, 1, 1, 8.5, 'scritto', '2026-04-29', 'Ottima prova'),
+(11, 3, 2, 1.0, 'scritto', '2026-04-15', NULL),
+(12, 3, 2, 1.0, 'scritto', '2026-04-15', NULL),
+(13, 3, 2, 1.0, 'scritto', '2026-04-07', NULL),
+(14, 3, 2, 1.0, 'scritto', '2026-04-07', NULL),
+(15, 3, 2, 10.0, 'scritto', '2026-04-26', NULL),
+(16, 3, 2, 10.0, 'scritto', '2026-04-26', NULL),
+(17, 1, 2, 1.0, 'scritto', '2026-04-24', NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -255,7 +265,7 @@ ALTER TABLE `voti`
 -- AUTO_INCREMENT per la tabella `classi`
 --
 ALTER TABLE `classi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `docenti`
@@ -291,7 +301,7 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `voti`
 --
 ALTER TABLE `voti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Limiti per le tabelle scaricate

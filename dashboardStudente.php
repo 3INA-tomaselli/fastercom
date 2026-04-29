@@ -1,5 +1,5 @@
 <?php
-require_once 'components/session.php';
+ require_once 'components/session.php';
 require_once 'db/connection.php';
 require_once 'components/navbar.php';
 require_once 'db/functions.php';
@@ -21,15 +21,22 @@ $email = $_SESSION['email'];
 
 $id = getidStudenteByEmail($email);
 
-$materie = getMaterieStudente($id);
+$materie = getMaterieStudente($id); 
 
-?>
-<h1>Dashboard Studente</h1>
+?> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Studenti - Fastercom</title>
+    <link rel="stylesheet" href="assets/style.css">
 
 
+<h1 class = studente>Dashboard Studente</h1>
+
+<?php require_once 'components/navbar.php'; ?>
 
 
-    <table border="1" cellpadding="10" style="margin-top:20px;">
+    <table class = tabellastudente border="1" cellpadding="10" style="margin-top:20px;">
     <thead>
         <tr>
             <th>Materia</th>
@@ -57,6 +64,6 @@ $materie = getMaterieStudente($id);
         <?php endif; ?>
     </tbody>
 </table>
-<a href="logout.php">Logout</a>
+<a class = studenteLogout href="logout.php">Logout</a>
 
 <?php require_once 'components/footer.php'; ?>

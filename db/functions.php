@@ -162,4 +162,83 @@ ORDER BY s.cognome, s.nome;";
     
 }
 
-   
+
+
+
+function inserisciVoto($idStud, $idDocente, $voto, $tipo, $data, $nota) {
+    global $pdo;
+
+    try {
+        $pdo->beginTransaction();
+
+        // 0. Ricava il docente_id reale dall'utente_id in sessione
+        $sqlDocente = "SELECT id FROM docenti WHERE utente_id = :idDocente";
+        $stmtDocente = $pdo->prepare($sqlDocente);
+        $stmtDocente->execute([':idDocente' => $idDocente]);
+        $docente = $stmtDocente->fetch(PDO::FETCH_ASSOC);
+
+        if (!$docente) {
+            $pdo->rollBack();
+            return "Docente non trovato";
+        }
+
+        $docenteId = $docente['id'];
+
+        // 1. Recupera l'id della materia
+        $sql1 = "SELECT m.id as materia_id
+                 FROM materie m
+                 JOIN insegnamenti i ON i.materia_id = m.id
+                 JOIN studenti s ON s.classe_id = i.classe_id
+                 WHERE s.id = :idStud
+                   AND i.docente_id = :docenteId
+                 LIMIT 1";
+        $stmt1 = $pdo->prepare($sql1);
+        $stmt1->execute([':idStud' => $idStud, ':docenteId' => $docenteId]);
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            $pdo->rollBack();
+            return "Nessun insegnamento trovato per questo studente e docente";
+        }
+
+        $materiaId = $row['materia_id'];
+
+        // 2. Inserisce il voto
+        $sql2 = "INSERT INTO voti (insegnamento_id, studente_id, valore, tipo, data, nota)
+                 VALUES (
+                     (
+                         SELECT i.id
+                         FROM insegnamenti i
+                         WHERE i.classe_id = (
+                                 SELECT classe_id 
+                                 FROM studenti 
+                                 WHERE id = :idStud
+                             )
+                           AND i.docente_id = :docenteId
+                           AND i.materia_id = :materiaId
+                     ),
+                     :idStud,
+                     :voto,
+                     :tipo,
+                     :data,
+                     :nota
+                 )";
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->execute([
+            ':idStud'    => $idStud,
+            ':docenteId' => $docenteId,
+            ':materiaId' => $materiaId,
+            ':voto'      => $voto,
+            ':tipo'      => $tipo,
+            ':data'      => $data,
+            ':nota'      => $nota
+        ]);
+
+        $pdo->commit();
+        return true;
+
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        return "Qualcosa è andato storto: " . $e->getMessage();
+    }
+}

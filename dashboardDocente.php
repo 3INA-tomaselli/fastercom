@@ -16,16 +16,21 @@ if($ruolo != "docente" && $ruolo != "admin"){
 }
 
 $id = $_SESSION['id'];
-$classi = getNomiClassi($id);
+$classi = getNomiClassi($id); 
 
 ?>
 
-<h1>Dashboard Docenti</h1>
-<?php if ($classi): ?>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Docenti - Fastercom</title>
+    <link rel="stylesheet" href="assets/style.css">
+ </head>
 
-
-
-
+<h1 class = h1docente>Dashboard Docenti</h1>
+<?php require_once 'components/navbar.php'; ?>
+ <?php if ($classi): ?>
+    
     <?php
 $idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
 ?>
@@ -57,6 +62,7 @@ $idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
             <th>Cognome dello studente</th>
             <th>Classe</th>
             <th>media dei voti</th>
+            <th>inserisci nuovo voto</th>
         </tr>
     </thead>
     <tbody>
@@ -68,6 +74,7 @@ $idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
                     <td><?= htmlspecialchars($i['studente_cognome']); ?></td>
                     <td><?= htmlspecialchars($i['classe_nome'] ); ?></td>
                     <td><?= $i['media_voti']; ?></td>
+                     <td><a href="inserimentoVoto.php?id=<?=$i['studente_id']?>">inserisci voto</a></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
@@ -90,6 +97,6 @@ $idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
 <p>non ci sono classi associate</p>
 <?php endif; ?>  
  
-<a href="logout.php">Logout</a>
+<a class = docenteLogout href="logout.php">Logout</a>
 
 <?php require_once 'components/footer.php'; ?>
