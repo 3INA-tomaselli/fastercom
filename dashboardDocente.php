@@ -1,5 +1,5 @@
 <?php
-/* require_once 'components/session.php';
+require_once 'components/session.php';
 require_once 'db/connection.php';
 require_once 'components/navbar.php';
 require_once 'db/functions.php';
@@ -16,7 +16,7 @@ if($ruolo != "docente" && $ruolo != "admin"){
 }
 
 $id = $_SESSION['id'];
-$classi = getNomiClassi($id); */
+$classi = getNomiClassi($id); 
 
 ?>
 
