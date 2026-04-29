@@ -32,7 +32,7 @@ $classi = getNomiClassi($id);
  <?php if ($classi): ?>
     
     <?php
-$idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
+
 ?>
 
 <form method="GET" action="">
