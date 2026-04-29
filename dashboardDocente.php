@@ -1,5 +1,5 @@
 <?php
-require_once 'components/session.php';
+/* require_once 'components/session.php';
 require_once 'db/connection.php';
 require_once 'components/navbar.php';
 require_once 'db/functions.php';
@@ -16,18 +16,31 @@ if($ruolo != "docente" && $ruolo != "admin"){
 }
 
 $id = $_SESSION['id'];
-$classi = getNomiClassi($id);
+$classi = getNomiClassi($id); */
 
 ?>
 
-<h1>Dashboard Docenti</h1>
-<?php if ($classi): ?>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Docenti - Fastercom</title>
+    <link rel="stylesheet" href="assets/style.css">
+ </head>
 
+<h1 class = h1docente>Dashboard Docenti</h1>
+<?php require_once 'components/navbar.php'; ?>
+ <?php if ($classi): ?>
+
+
+    
+
+
+  
 
 
 
     <?php
-$idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
+
 ?>
 
 <form method="GET" action="">
@@ -90,6 +103,6 @@ $idClasse = isset($_GET['classe_id']) ? (int)$_GET['classe_id'] : null;
 <p>non ci sono classi associate</p>
 <?php endif; ?>  
  
-<a href="logout.php">Logout</a>
+<a class = docenteLogout href="logout.php">Logout</a>
 
 <?php require_once 'components/footer.php'; ?>
