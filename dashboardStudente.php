@@ -1,5 +1,5 @@
 <?php
-/* require_once 'components/session.php';
+ require_once 'components/session.php';
 require_once 'db/connection.php';
 require_once 'components/navbar.php';
 require_once 'db/functions.php';
@@ -21,7 +21,7 @@ $email = $_SESSION['email'];
 
 $id = getidStudenteByEmail($email);
 
-$materie = getMaterieStudente($id); */
+$materie = getMaterieStudente($id); 
 
 ?> 
 <head>
