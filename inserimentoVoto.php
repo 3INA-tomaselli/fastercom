@@ -14,6 +14,8 @@ if($ruolo != "docente" && $ruolo != "admin"){
     header("Location: dashboardStudente.php");
 }
 
+$errors = [];
+
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $idStud = $_GET["id"];
 }
@@ -54,50 +56,67 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $success = "Voto inserito con successo!";
         }
     }
-    
 }
 ?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserimento Voto - Fastercom</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
 
-<h1>Dashboard Docenti inserimentoVoto studId: <?= $idStud ?></h1>
+    <header class="school-header">
+        <h1>Liceo P. Lodron</h1>
+        <p>Registro Scolastico</p>
+    </header>
 
-<?php if (!empty($errors)){ ?>
-    <div class="errors">
-        <ul>
-            <?php foreach ($errors as $error){ ?>
-                <li><p style="color:red;"><?= $error ?></p></li>
-            <?php } ?>
-        </ul>
-    </div>
-<?php } ?>
+    <?php require_once 'components/navbar.php'; ?>
 
-<?php if (isset($success)){ ?>
-    <p style="color:green;"><?= $success ?></p>
-<?php } ?>
+    <h1>Inserimento Voto - Studente ID: <?= $idStud ?></h1>
 
-<form action="" method="POST">
-    <input type="hidden" name="idStud" value="<?= $idStud ?>"> 
+    <?php if (!empty($errors)){ ?>
+        <div class="errors">
+            <ul>
+                <?php foreach ($errors as $error){ ?>
+                    <li><?= $error ?></li>
+                <?php } ?>
+            </ul>
+        </div>
+    <?php } ?>
 
-    <label for="voto">Voto</label>
-    <input type="number" id="voto" name="voto" placeholder="Voto" min="1" max="10">
+    <?php if (isset($success)){ ?>
+        <p style="color:green;"><?= $success ?></p>
+    <?php } ?>
 
-    <label for="tipo">Tipo</label>
-    <select id="tipo" name="tipo">
-        <option value="" disabled selected>Seleziona tipo</option>
-        <option value="scritto">Scritto</option>
-        <option value="orale">Orale</option>
-        <option value="pratico">Pratico</option>
-    </select>
+    <form action="" method="POST">
+        <input type="hidden" name="idStud" value="<?= $idStud ?>"> 
 
-    <label for="data">Data</label>
-    <input type="date" id="data" name="data">
+        <label for="voto">Voto</label>
+        <input type="number" id="voto" name="voto" placeholder="Voto" min="1" max="10">
 
-    <label for="nota">Nota (facoltativa)</label>
-    <input type="text" name="nota" placeholder="nota">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" name="tipo">
+            <option value="" disabled selected>Seleziona tipo</option>
+            <option value="scritto">Scritto</option>
+            <option value="orale">Orale</option>
+            <option value="pratico">Pratico</option>
+        </select>
 
-    <button>Let's go!</button>
-</form>
+        <label for="data">Data</label>
+        <input type="date" id="data" name="data">
 
-<a href="dashboardDocente.php">torna alle classi</a><br>
-<a href="logout.php">Logout</a>
+        <label for="nota">Nota (facoltativa)</label>
+        <input type="text" name="nota" placeholder="nota">
 
-<?php require_once 'components/footer.php'; ?>
+        <button>Inserisci</button>
+    </form>
+
+    <a href="dashboardDocente.php">torna alle classi</a><br>
+    <a href="logout.php">Logout</a>
+
+    <?php require_once 'components/footer.php'; ?>
+</body>
+</html>
