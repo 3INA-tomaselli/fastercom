@@ -1,3 +1,5 @@
+
+
 <?php
 require_once 'components/session.php';
 require_once 'db/connection.php';
@@ -74,8 +76,8 @@ $classi   = getAllClassi();
         <div class="alert"><?= htmlspecialchars($msg) ?></div>
     <?php endif; ?>
 
-    <h2>Studenti registrati</h2>
-    <table border="1" cellpadding="10">
+    <h2 class="admin-section">Studenti registrati</h2>
+    <table class="data-table" cellpadding="10">
         <thead>
             <tr>
                 <th>ID</th>
@@ -102,7 +104,7 @@ $classi   = getAllClassi();
                     <form method="POST" action="" onsubmit="return confirm('Sei sicuro di voler eliminare questo studente? Verranno rimossi anche i voti associati.');">
                         <input type="hidden" name="action" value="delete_studente">
                         <input type="hidden" name="id" value="<?= (int)$s['id'] ?>">
-                        <button type="submit" style="background:#c00;color:#fff;border:none;padding:4px 8px;cursor:pointer;">Elimina</button>
+                        <button type="submit" class="btn-delete">Elimina</button>
                     </form>
                 </td>
             </tr>
@@ -113,8 +115,8 @@ $classi   = getAllClassi();
         </tbody>
     </table>
 
-    <h2>Inserisci nuovo studente</h2>
-    <form method="POST" action="">
+    <h2 class="admin-section">Inserisci nuovo studente</h2>
+    <form method="POST" action="" class="form-admin">
         <input type="hidden" name="action" value="add_studente">
 
         <label>Email: <input type="email" name="email" required></label><br>
@@ -135,7 +137,7 @@ $classi   = getAllClassi();
         <button type="submit">Inserisci Studente</button>
     </form>
 
-    <p><a href="dashboardAdmin.php">← Torna alla Dashboard</a></p>
+    <p class="back-link"><a href="dashboardAdmin.php">← Torna alla Dashboard</a></p>
     <?php require_once 'components/footer.php'; ?>
 </body>
 </html>
