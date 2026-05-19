@@ -1,0 +1,93 @@
+Relazione tecnica sul progetto Fastercom — Registro Elettronico Scolastico
+
+1. Introduzione
+
+Fastercom è un’applicazione web pensata per la gestione digitale di un registro scolastico, sviluppata per il Liceo P. Lodron. Il sistema permette a tre figure distinte — amministratore, docente e studente — di interagire con i dati scolastici in base al proprio ruolo, attraverso un’interfaccia web accessibile via browser.
+
+L’obiettivo del progetto è offrire una piattaforma leggera ma completa per l’inserimento e la consultazione dei voti, la gestione anagrafica e l’organizzazione didattica (classi, materie e assegnazioni docente).
+
+---
+
+2. Architettura e stack tecnologico
+
+Il progetto è realizzato in PHP procedurale, senza l’ausilio di framework esterni. L’interfaccia grafica è gestita tramite HTML e un foglio di stile CSS personalizzato, che definisce un tema scuro con accenti dorati per le aree riservate.
+
+La struttura delle cartelle è modulare: i file di configurazione e le funzioni di accesso ai dati sono raggruppati in una directory dedicata al database, mentre elementi comuni come l’avvio della sessione, la barra di navigazione e il piede pagina sono isolati in componenti riutilizzabili. Questo approccio consente di mantenere le pagine principali più pulite, limitandosi a includere i blocchi necessari all’inizio del file.
+
+La connessione al database avviene tramite PDO (PHP Data Objects), configurata per generare eccezioni in caso di errore e per operare in codifica utf8mb4, garantendo il corretto trattamento di caratteri speciali.
+
+---
+
+3. Flussi operativi e funzionalità
+
+3.1 Autenticazione e controllo degli accessi
+
+All’accesso, l’utente si trova di fronte a una pagina di login che raccoglie email e password. Il sistema verifica le credenziali interrogando la tabella degli utenti e, in caso di successo, avvia una sessione PHP memorizzando l’identità, il ruolo e l’identificativo numerico dell’utente.
+
+Una volta autenticato, un file indice funge da router interno: in base al ruolo memorizzato in sessione, lo studente viene indirizzato alla propria dashboard personale, il docente al pannello delle classi e l’amministratore al cruscotto di gestione. Ogni pagina successiva effettua un controllo preventivo: se il ruolo non corrisponde a quello autorizzato, l’utente viene rimandato alla pagina di accesso.
+
+Per la protezione delle password, il sistema utilizza l’algoritmo BCRYPT tramite le funzioni native `password_hash()` e `password_verify()`.
+
+3.2 Area Studente
+
+La dashboard dello studente presenta un libretto digitale in cui sono elencate le materie della sua classe, con indicazione del docente titolare, della media dei voti, del numero di valutazioni ricevute e dell’elenco puntuale dei singoli voti. I dati vengono recuperati con una query che unisce le tabelle degli studenti, degli insegnamenti, delle materie, dei docenti e dei voti, raggruppando i risultati per materia. L’uso di una left join sui voti garantisce che una materia venga visualizzata anche se non ha ancora valutazioni associate.
+
+3.3 Area Docente
+
+Il docente, dopo l’accesso, visualizza un menu a tendina con le classi a lui assegnate. La selezione di una classe aggiorna la pagina mostrando l’elenco degli studenti iscritti, con nome, cognome e media generale. Da questa tabella, il docente può accedere a un form dedicato per registrare una nuova valutazione.
+
+L’inserimento di un voto è gestito in modo transazionale: il sistema prima identifica il docente a partire dall’identificativo dell’utente in sessione, poi ricava l’insegnamento corretto (combinazione docente-materia-classe) e infine scrive il record nella tabella voti. Se una qualsiasi di queste fasi dovesse fallire, l’intera operazione viene annullata per mantenere la coerenza dei dati.
+
+Il voto è memorizzato come valore numerico con un decimale, accompagnato dalla tipologia (scritto, orale o pratico), dalla data e da un eventuale campo note testuale.
+
+3.4 Area Amministrativa
+
+L’amministratore dispone di tre sezioni distinte:
+
+* Gestione Studenti: consente di inserire nuovi alunni specificando i dati anagrafici, la classe di appartenenza e le credenziali di accesso. L’inserimento avviene in due passaggi: prima viene creato l’utente nella tabella generica, poi viene generato il record specifico dello studente. È possibile anche eliminare uno studente; in questo caso il sistema rimuove automaticamente anche l’utente associato, mantenendo pulita la tabella delle credenziali.
+
+* Gestione Docenti: funzionalmente analoga a quella degli studenti, ma senza il vincolo della classe.
+
+* Gestione Materie e Assegnazioni: qui l’admin definisce le materie presenti nell’offerta formativa e crea le associazioni tra docente, materia e classe. Questa tabella di collegamento è fondamentale perché determina quali docenti possono vedere quali classi e quali studenti possono visualizzare quali materie. L’eliminazione di un’assegnazione comporta la cancellazione a cascata anche dei voti legati a quella combinazione, grazie ai vincoli di integrità referenziale definiti a livello di database.
+
+---
+
+4. Struttura del database
+
+Il database relazionale si articola in sei tabelle principali, progettate per evitare ridondanze e garantire l’integrità dei dati:
+
+* utenti: contiene le credenziali di accesso (email, password hashata, ruolo).
+* studenti e docenti: tabelle specializzate che estendono gli utenti con dati anagrafici; sono collegate alla tabella utenti tramite chiave esterna.
+* classi e materie: tabelle di supporto che definiscono le classi e le discipline.
+* insegnamenti: tabella pivot che collega un docente, una materia e una classe; su questa è definito un vincolo di unicità per evitare che lo stesso docente venga assegnato più volte alla stessa materia nella stessa classe.
+* voti: registra le singole valutazioni, collegandosi sia allo studente sia all’insegnamento (quindi indirettamente a docente, materia e classe).
+
+Le chiavi esterne sono configurate con regole di cancellazione appropriate: ad esempio, eliminando un’assegnazione si cancellano automaticamente i voti ad essa collegati, mentre eliminando uno studente o un docente si può scegliere se mantenere o rimuovere il record utente associato.
+
+---
+
+5. Misure di sicurezza
+
+Dal punto di vista della sicurezza, il sistema adotta alcune buone pratiche fondamentali:
+
+* Prepared statements: tutte le interrogazioni al database utilizzano parametri bound, impedendo l’esecuzione di codice SQL malevolo inserito tramite input utente. Ad esempio, una tipica query di ricerca si presenta così:
+
+```php
+$sql = "SELECT * FROM utenti WHERE email = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$email]);
+```
+
+* Output escaping: i dati visualizzati nelle pagine HTML vengono filtrati tramite `htmlspecialchars()`, prevenendo attacchi di tipo cross-site scripting (XSS).
+
+* Controllo dei ruoli: ogni pagina riservata inizia con una verifica della sessione attiva e del ruolo autorizzato, impedendo l’accesso diretto tramite URL a funzioni non consentite.
+
+Un aspetto che potrebbe essere rafforzato in una versione futura è l’introduzione di token CSRF sui form di invio dati, attualmente assenti.
+
+---
+
+6. Osservazioni conclusive
+
+Fastercom si presenta come una soluzione funzionale e immediata per la gestione scolastica digitale. La scelta di un’architettura procedurale e di un database relazionale con vincoli rigorosi lo rende comprensibile e manutenibile anche in ambienti didattici o con risorse limitate.
+
+Le aree di possibile evoluzione includono l’implementazione di un sistema di templating per separare meglio logica e presentazione, l’aggiunta di controlli CSRF e l’eventuale trasformazione delle query di riepilogo in viste materializzate o report esportabili, qualora il volume dei dati dovesse crescere significativamente.
